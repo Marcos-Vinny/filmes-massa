@@ -18,4 +18,6 @@ export const getPosterUrl = (posterPath) => {
   return `${IMAGE_BASE_URL}${posterPath}`;
 };
 
+export const searchMovies = (query) => api.get('/search/movie', { params: { query } });
+
 export default api;

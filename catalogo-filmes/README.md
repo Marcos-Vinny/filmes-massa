@@ -56,6 +56,7 @@ npm run dev
 
 ```
 npm run test
+
 ```
 
 ## MVP (Etapa 2 — telas, navegação, estados e testes)
@@ -71,3 +72,40 @@ Nesta etapa, o projeto evoluiu de "setup" para um MVP navegável:
   - `src/services/api.test.js`: testa `getPosterUrl` (monta URL corretamente e retorna `null` quando não há poster).
   - `src/components/MovieCard.test.jsx`: testa se o `MovieCard` renderiza o título e a imagem com o `src`/`alt` corretos, usando um filme mockado.
 - A chave da API saiu do código-fonte e passou a vir de variável de ambiente (`VITE_TMDB_API_KEY`, em `.env`, que está no `.gitignore`).
+
+## Etapa 3 — identidade visual, feature pós-MVP e entrega final
+
+### Identidade visual
+
+- **Paleta de cores**: fundo escuro (`#0b0c10`), cards em `#16181d` e dourado (`#e6b325`) como cor de destaque em botões, hover e foco — referência à estética de cinema/tapete vermelho.
+- **Tipografia**: `Bebas Neue` nos títulos (H1/H2), `Inter` no corpo do texto.
+- **Ícone**: favicon trocado do padrão do Vite para um emoji de claquete de cinema (🎬).
+- Todas as cores, raio de borda e fontes ficam centralizadas em variáveis CSS (`--color-bg`, `--color-primary`, `--radius`, `--font-heading`, `--font-body`, etc.) declaradas em `src/index.css` e reutilizadas tanto na `HomeScreen` quanto na `DetailsScreen`, garantindo consistência visual entre as telas.
+
+### Feature pós-MVP: Descoberta (busca + ordenação)
+
+Entre as categorias do cardápio pós-MVP (login/cadastro, notificações, preço/monetização, personalização, descoberta), o grupo escolheu **Descoberta**, por não depender de backend novo nem de autenticação — usa o mesmo TMDB já configurado no MVP.
+
+- **Busca por título**: campo de busca na `HomeScreen`, com debounce de 400ms, chamando o endpoint `/search/movie` da API TMDB (função `searchMovies` em `services/api.js`).
+- **Ordenação**: seletor com 4 opções (mais populares, melhor avaliados, título A-Z, lançamento mais recente), aplicada sobre a lista já carregada.
+- **Busca e ordenação persistem na URL** (`?q=...&sort=...`, via `useSearchParams`), então voltar da tela de detalhes preserva o filtro que estava ativo, em vez de resetar para a lista padrão.
+- Demais categorias foram descartadas: login/cadastro (exigiria backend de auth), notificações (não há gatilho de negócio ainda), preço/monetização (o app não vende nada, seria decorativo) e personalização (depende de login).
+
+### Estados vazios e feedback visual
+
+- Mensagem de busca sem resultado: `Nenhum filme encontrado para "<termo>"`.
+- Mensagem para lista vazia sem busca ativa: `Nenhum filme disponível no momento`.
+- Feedback visual: hover nos cards (elevação + fundo), hover no botão "Voltar", borda destacada no campo de busca em foco.
+
+### Limpeza de código
+
+- `react-icons` (instalado desde o MVP, mas sem uso real) passou a ser usado no ícone de busca.
+- Estilos inline foram extraídos para arquivos `.css` próprios de cada tela (`HomeScreen.css`, `DetailsScreen.css`), no mesmo padrão que `MovieCard.css` já seguia.
+
+### Testes
+
+Os testes da Etapa 2 (`api.test.js` e `MovieCard.test.jsx`) continuam passando sem alteração — as mudanças desta etapa não tocaram em `getPosterUrl` nem no comportamento do `MovieCard`.
+
+### Build de teste
+
+Como o projeto é web (Vite), o build de teste é gerado com:
