@@ -7,7 +7,7 @@ Aplicação web desenvolvida em React (Vite) que exibe uma lista de filmes com p
 - Daniel dos Santos Souza
 - Davi Santos
 - Marcos Vinícius Farias Silva
-- Ricardo Lemos
+- Ricardo Lemos Machado
 - João Luiz Correia
 
 ## Bibliotecas utilizadas
